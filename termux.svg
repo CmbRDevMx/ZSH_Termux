@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <!-- Fondo -->
+  <rect width="800" height="500" fill="#1A1A1E" rx="15" ry="15"/>
+  
+  <!-- Terminal Borde -->
+  <rect x="100" y="70" width="600" height="360" rx="10" ry="10" fill="#2D2D30" stroke="#6F7CEF" stroke-width="3"/>
+  
+  <!-- Barra superior de la Terminal -->
+  <rect x="100" y="70" width="600" height="30" rx="10" ry="10" fill="#4C4C4F"/>
+  <rect x="100" y="70" width="600" height="15" rx="10" ry="10" fill="#4C4C4F"/>
+  
+  <!-- Botones de la ventana -->
+  <circle cx="125" cy="85" r="7" fill="#EE146F"/>
+  <circle cx="150" cy="85" r="7" fill="#F4C82D"/>
+  <circle cx="175" cy="85" r="7" fill="#4FDA15"/>
+  
+  <!-- Texto de la Terminal -->
+  <g font-family="monospace">
+    <!-- Prompt ZSH con Powerlevel10k -->
+    <text x="120" y="140" fill="#4FDA15" font-size="18">user@termux</text>
+    <text x="240" y="140" fill="#6F6FFC" font-size="18">~/projects</text>
+    <text x="350" y="140" fill="#F5B337" font-size="18">git:(main) </text>
+    <text x="480" y="140" fill="#d9e6f2" font-size="18">$</text>
+    
+    <!-- Comando ZSH -->
+    <text x="120" y="180" fill="#d9e6f2" font-size="18">
+      <tspan id="command"></tspan>
+      <tspan id="cursor">|</tspan>
+    </text>
+    
+    <!-- Resultado de comando -->
+    <g id="output" fill="#d9e6f2" font-size="16">
+      <!-- Se llenará mediante animación -->
+    </g>
+  </g>
+  
+  <!-- Logo de Termux -->
+  <g transform="translate(680, 375) scale(0.6)">
+    <rect x="-50" y="-50" width="100" height="100" rx="20" ry="20" fill="#1A1A1E" stroke="#4FDA15" stroke-width="5"/>
+    <text x="-25" y="25" font-family="monospace" font-size="55" font-weight="bold" fill="#d9e6f2">T></text>
+  </g>
+  
+  <!-- Logo de ZSH -->
+  <g transform="translate(115, 375) scale(0.6)">
+    <rect x="-50" y="-50" width="100" height="100" rx="20" ry="20" fill="#1A1A1E" stroke="#EE146F" stroke-width="5"/>
+    <text x="-40" y="25" font-family="monospace" font-size="65" font-weight="bold" fill="#d9e6f2">Z</text>
+  </g>
+  
+  <!-- Líneas de Código Flotantes -->
+  <g id="floatingCode" opacity="0.2" font-family="monospace" font-size="14">
+    <text x="400" y="250" fill="#4FDA15">function git_status() {</text>
+    <text x="420" y="275" fill="#F5B337">  if [[ $(git status 2> /dev/null) ]]; then</text>
+    <text x="440" y="300" fill="#6F6FFC">    echo "$(git branch --show-current)"</text>
+    <text x="420" y="325" fill="#F5B337">  fi</text>
+    <text x="400" y="350" fill="#4FDA15">}</text>
+  </g>
+  
+  <!-- Definición de animaciones -->
+  <style>
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); opacity: 0.1; }
+      50% { transform: translateY(-15px); opacity: 0.3; }
+      100% { transform: translateY(0px); opacity: 0.1; }
+    }
+    
+    @keyframes typing {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    #cursor {
+      animation: blink 1s infinite;
+    }
+    
+    #floatingCode {
+      animation: float 8s ease-in-out infinite;
+    }
+  </style>
+  
+  <!-- Script para animación de texto -->
+  <script type="text/javascript"><![CDATA[
+    window.onload = function() {
+      const command = document.getElementById('command');
+      const cursor = document.getElementById('cursor');
+      const output = document.getElementById('output');
+      
+      const fullCommand = "powerlevel10k configure";
+      const cmdChars = fullCommand.split('');
+      
+      let charIndex = 0;
+      
+      // Función para animar la escritura
+      function typeCommand() {
+        if (charIndex < cmdChars.length) {
+          command.textContent += cmdChars[charIndex];
+          charIndex++;
+          setTimeout(typeCommand, 150);
+        } else {
+          setTimeout(showOutput, 500);
+        }
+      }
+      
+      // Mostrar resultado del comando
+      function showOutput() {
+        cursor.setAttribute('visibility', 'hidden');
+        
+        const outputs = [
+          {y: 210, text: "Configuring Powerlevel10k..."},
+          {y: 235, text: "✓ Prompt Style: Classic"},
+          {y: 260, text: "✓ Character Set: Unicode"},
+          {y: 285, text: "✓ Show current time: 24-hour format"},
+          {y: 310, text: "Applying changes to ~/.zshrc..."}
+        ];
+        
+        outputs.forEach((line, index) => {
+          setTimeout(() => {
+            const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            textEl.setAttribute("x", "120");
+            textEl.setAttribute("y", line.y);
+            textEl.setAttribute("fill", "#d9e6f2");
+            textEl.setAttribute("font-size", "16");
+            textEl.style.opacity = "0";
+            textEl.textContent = line.text;
+            
+            output.appendChild(textEl);
+            
+            // Fade in animation
+            let opacity = 0;
+            const fadeIn = setInterval(() => {
+              opacity += 0.1;
+              textEl.style.opacity = opacity;
+              if (opacity >= 1) clearInterval(fadeIn);
+            }, 50);
+            
+          }, index * 600);
+        });
+        
+        // Mostrar el cursor de nuevo con un nuevo prompt
+        setTimeout(() => {
+          const newPrompt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          newPrompt.setAttribute("x", "120");
+          newPrompt.setAttribute("y", "340");
+          newPrompt.setAttribute("fill", "#4FDA15");
+          newPrompt.setAttribute("font-size", "18");
+          newPrompt.textContent = "user@termux";
+          
+          const newDir = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          newDir.setAttribute("x", "240");
+          newDir.setAttribute("y", "340");
+          newDir.setAttribute("fill", "#6F6FFC");
+          newDir.setAttribute("font-size", "18");
+          newDir.textContent = "~/projects";
+          
+          const newGit = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          newGit.setAttribute("x", "350");
+          newGit.setAttribute("y", "340");
+          newGit.setAttribute("fill", "#F5B337");
+          newGit.setAttribute("font-size", "18");
+          newGit.textContent = "git:(main) ";
+          
+          const newDollar = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          newDollar.setAttribute("x", "480");
+          newDollar.setAttribute("y", "340");
+          newDollar.setAttribute("fill", "#d9e6f2");
+          newDollar.setAttribute("font-size", "18");
+          newDollar.textContent = "$";
+          
+          const newCursor = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          newCursor.setAttribute("x", "500");
+          newCursor.setAttribute("y", "340");
+          newCursor.setAttribute("fill", "#d9e6f2");
+          newCursor.setAttribute("font-size", "18");
+          newCursor.textContent = "|";
+          newCursor.style.animation = "blink 1s infinite";
+          
+          output.appendChild(newPrompt);
+          output.appendChild(newDir);
+          output.appendChild(newGit);
+          output.appendChild(newDollar);
+          output.appendChild(newCursor);
+          
+        }, outputs.length * 600 + 500);
+      }
+      
+      // Iniciar la animación
+      setTimeout(typeCommand, 1000);
+    };
+  ]]></script>
+</svg>
