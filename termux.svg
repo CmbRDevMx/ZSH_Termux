@@ -18,7 +18,7 @@
   <!-- Texto de la Terminal -->
   <g font-family="monospace">
     <!-- Prompt ZSH con Powerlevel10k -->
-    <text x="120" y="140" fill="#4FDA15" font-size="18">user@termux</text>
+    <text x="120" y="140" fill="#4FDA15" font-size="18">cmbrdevmx@termux</text>
     <text x="240" y="140" fill="#6F6FFC" font-size="18">~/projects</text>
     <text x="350" y="140" fill="#F5B337" font-size="18">git:(main) </text>
     <text x="480" y="140" fill="#d9e6f2" font-size="18">$</text>
@@ -50,8 +50,8 @@
   <!-- Líneas de Código Flotantes -->
   <g id="floatingCode" opacity="0.2" font-family="monospace" font-size="14">
     <text x="400" y="250" fill="#4FDA15">function git_status() {</text>
-    <text x="420" y="275" fill="#F5B337">  if [[ $(git status 2> /dev/null) ]]; then</text>
-    <text x="440" y="300" fill="#6F6FFC">    echo "$(git branch --show-current)"</text>
+    <text x="420" y="275" fill="#F5B337">  if [[ $(git status 2> /dev/null)</text>
+    <text x="440" y="300" fill="#6F6FFC">    echo "$(git branch --show)"</text>
     <text x="420" y="325" fill="#F5B337">  fi</text>
     <text x="400" y="350" fill="#4FDA15">}</text>
   </g>
