@@ -18,7 +18,7 @@
   <!-- Texto de la Terminal -->
   <g font-family="monospace">
     <!-- Prompt ZSH con Powerlevel10k -->
-    <text x="120" y="140" fill="#4FDA15" font-size="18">cmbrdevmx@termux</text>
+    <text x="120" y="140" fill="#4FDA15" font-size="18">cmbrdevmx</text>
     <text x="240" y="140" fill="#6F6FFC" font-size="18">~/projects</text>
     <text x="350" y="140" fill="#F5B337" font-size="18">git:(main) </text>
     <text x="480" y="140" fill="#d9e6f2" font-size="18">$</text>
