@@ -177,7 +177,27 @@ Puedes personalizar aún más este teclado según tus necesidades específicas.
 
 ## Personalización del Esquema de Colores
 
+
 Un esquema de colores bien diseñado no solo mejora la estética sino también la legibilidad y reduce la fatiga visual:
+
+Configurar colores para extensiones específicas en el archivo `.zshrc`
+
+Añade estas líneas al final del archivo:
+
+```bash
+# Configurar colores personalizados para ls
+export LS_COLORS="*.html=31:*.css=36:*.js=33:*.php=35:$LS_COLORS"
+alias ls='lsd --color=auto'
+```
+
+Con esta configuración:
+- Archivos HTML: color rojo (31)
+- Archivos CSS: color cian (36)
+- Archivos JS: color amarillo (33)
+- Archivos PHP: color magenta (35)
+
+
+______________________
 
 ```bash
 # Crear archivo de configuración de colores
