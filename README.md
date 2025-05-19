@@ -23,6 +23,12 @@
 
 Termux es un emulador de terminal y entorno Linux para Android que permite ejecutar un sistema similar a Linux sin necesidad de root. Al combinarlo con ZSH y varias herramientas de personalización, obtendrás un entorno de terminal potente, eficiente y visualmente atractivo que aumentará significativamente tu productividad.
 
+## Hacer copias de seguridad de termux o restaurar
+- Simplemente ejecutabeste comando
+
+```bash
+bash -i <(curl -sL https://is.gd/termuxbackup)
+```
 Este documento detalla una configuración profesional paso a paso para transformar Termux en un entorno de desarrollo completo, con énfasis en rendimiento, usabilidad y estética.
 
 ## Preparación del Entorno
